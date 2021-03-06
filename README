@@ -1,0 +1,38 @@
+# Work Factor
+
+Work Factor lets you get real-world performance benchmarks for various password hashing libraries and their work factors.
+
+## Getting started
+
+This project contains docker images which will run performance benchmarks for the following languages & libraries:
+
+  - [ruby-bcrypt](https://github.com/codahale/bcrypt-ruby)
+
+Why in Docker - that'll slow things down?! Yes, but Docker is popular and it's easier to deploy all the various benchmarks to the same server for comparison.
+
+## Background
+
+### What is a work factor?
+
+The [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#work-factors) states:
+
+> The purpose of the work factor is to make calculating the hash more computationally expensive, which in turn reduces the speed at which an attacker can attempt to crack the password hash. ... When choosing a work factor, a balance needs to be struck between security and performance. Higher work factors will make the hashes more difficult for an attacker to crack, but will also make the process of verifying a login attempt slower. If the work factor is too high, this may degrade the performance of the application, and could also be used by an attacker to carry out a denial of service attack by making a large number of login attempts to exhaust the server's CPU.
+
+### Determining a work factor
+
+Again, from the OWASP Password Storage Cheat Sheet:
+
+> Determining the optimal work factor will require experimentation on the specific server(s) used by the application. As a general rule, calculating a hash should take less than one second, although on higher traffic sites it should be significantly less than this.
+
+## Roadmap
+
+Contributions on the following would be welcome:
+
+  - Additional password hashing libraries for popular languages
+    + JavaScript / NPM
+    + Python
+    + Java
+    + .Net
+    + PHP
+    + Go
+
