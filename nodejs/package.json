@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "node-gyp": "^7.1.2"
+  }
+}
