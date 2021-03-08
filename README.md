@@ -75,11 +75,23 @@ The [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/chea
 
 > The purpose of the work factor is to make calculating the hash more computationally expensive, which in turn reduces the speed at which an attacker can attempt to crack the password hash. ... When choosing a work factor, a balance needs to be struck between security and performance. Higher work factors will make the hashes more difficult for an attacker to crack, but will also make the process of verifying a login attempt slower. If the work factor is too high, this may degrade the performance of the application, and could also be used by an attacker to carry out a denial of service attack by making a large number of login attempts to exhaust the server's CPU.
 
+### How does a higher work factor protect my users?
+
+Continuing on from the ruby work factor example above, let's say an attacker has got a hold of your database and is using a `t3.micro` to attempt to brute force passwords stored using `bcrypt` with a work factor of 13, which takes ~470ms to hash.
+
+That means it'd take 33 days to check a user's password hash against [the top 100,000 most common passwords](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-100000.txt). And since bcrypt is salted, they need to attack each user's hash one by one. 
+
+**You've given your users 33 days to go and change their password to something stronger and to enable MFA. Not bad!**
+
+Unfortunately, we must remember that an attacker _will not_ use a `t3.micro`, and will also use dedicated password brute-forcing software, not `bcrypt-ruby`.
+
 ### Determining a work factor
 
 Again, from the OWASP Password Storage Cheat Sheet:
 
 > Determining the optimal work factor will require experimentation on the specific server(s) used by the application. As a general rule, calculating a hash should take less than one second, although on higher traffic sites it should be significantly less than this.
+
+That is a very "it depends" definition, which is the reason for this project. With these docker images you can more easily determine what work factor and/or server type is appropriate for your use case!
 
 ### Why is this using Docker?
 
@@ -95,4 +107,5 @@ Contributions on the following would be welcome:
     + .Net
     + PHP
     + Go
+  - Benchmarks for all libraries on various AWS, Azure, and GCP instance types
   - Add current-state hashcat results (i.e. how fast can attackers brute force a cost-factor 13 password on a GPU-optimised instance)
