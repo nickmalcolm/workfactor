@@ -2,7 +2,7 @@
 //
 // Performance code from https://nodejs.org/api/perf_hooks.html#perf_hooks_class_performance
 // Bcrypt code from https://www.npmjs.com/package/bcrypt
-
+// Node's bcrypt has a default work factor of 10.
 const { performance } = require('perf_hooks');
 
 const iterations = 10

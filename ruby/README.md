@@ -3,8 +3,8 @@ Uses `bcrypt-ruby` to benchmark.
 Example output:
 
 ```
-docker build -t bcrypt-benchmark .
-docker run -t bcrypt-benchmark
+docker build -t workfactor/ruby-bcrypt .
+docker run -t workfactor/ruby-bcrypt:latest
 ruby bcrypt(8)	avg: 18ms	min: 18ms	max: 19ms
 ruby bcrypt(9)	avg: 36ms	min: 35ms	max: 40ms
 ruby bcrypt(10)	avg: 72ms	min: 71ms	max: 76ms

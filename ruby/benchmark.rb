@@ -1,5 +1,5 @@
 # Get performance for ruby's ruby-bcrypt.
-
+# ruby-bcrypt has a default cost of 12.
 require 'bcrypt'
 require 'benchmark'
 
