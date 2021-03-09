@@ -10,6 +10,7 @@ This project contains docker images which will run performance benchmarks for th
 
   - [Ruby's ruby-bcrypt](https://github.com/codahale/bcrypt-ruby)
   - [NodeJS's bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+  - [Python's bcrypt](https://github.com/pyca/bcrypt/)
   - ... see Roadmap
 
 ### Running the benchmarks yourself
@@ -101,8 +102,11 @@ Why in Docker - that'll slow things down?! Yes it will. However I imagine many o
 
 Contributions on the following would be welcome:
 
-  - Additional password hashing libraries for popular languages
-    + Python
+  - Benchmarks for additional password hashing algorithms
+    + PBKDF2
+    + Argon2id
+    + scrypt
+  - Benchmarks for additional password hashing libraries in popular languages
     + Java
     + .Net
     + PHP
