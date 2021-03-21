@@ -6,16 +6,43 @@ See the Background section further down to learn more about work factors.
 
 ## Getting started
 
+The simplest way to get started is to run a benchmark locally. They're docker containers, so they'll run anywhere that Docker can run.
+
+```
+cd ruby
+docker build -t workfactor/ruby-bcrypt .
+docker run -t workfactor/ruby-bcrypt:latest
+ruby bcrypt(8)  avg: 18ms min: 18ms max: 19ms
+ruby bcrypt(9)  avg: 36ms min: 35ms max: 40ms
+ruby bcrypt(10) avg: 72ms min: 71ms max: 76ms
+ruby bcrypt(11) avg: 144ms  min: 143ms  max: 147ms
+ruby bcrypt(12) avg: 292ms  min: 287ms  max: 303ms
+ruby bcrypt(13) avg: 583ms  min: 575ms  max: 594ms
+ruby bcrypt(14) avg: 1156ms min: 1149ms max: 1166ms
+ruby bcrypt(15) avg: 2418ms min: 2322ms max: 2697ms
+ruby bcrypt(16) avg: 4684ms min: 4655ms max: 4698ms
+```
+
+## Languages, Libraries, and Algorithms
+
 This project contains docker images which will run performance benchmarks for the following languages & libraries:
 
-  - [Ruby's ruby-bcrypt](https://github.com/codahale/bcrypt-ruby)
-  - [NodeJS's bcrypt](https://github.com/kelektiv/node.bcrypt.js)
-  - [Python's bcrypt](https://github.com/pyca/bcrypt/)
-  - ... see Roadmap
 
-### Running the benchmarks yourself
+|Language|PBKDF2|bcrypt|scrypt|Argon2id|
+|--------|------|------|------|--------|
+|JavaScript / NPM||[node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js)|||
+|Python||[bcrypt](https://github.com/pyca/bcrypt/)|||
+|Java|||||
+|C#||[BCrypt.Net](https://github.com/BcryptNet/bcrypt.net)|||
+|PHP|||||
+|Go||||||
+|Ruby||[bcrypt](https://github.com/codahale/bcrypt-ruby)|||
 
-This guide uses Terraform & AWS. You'll need to have both installed and configured with appropriate IAM credentials.
+Any blank cells indicate there's no benchmark written yet - please contribute! Languages in the table are listed in order of "popularity" as [rated by StackOverflow 2020](https://insights.stackoverflow.com/survey/2020#technology).
+
+## Running the benchmarks in AWS
+
+This guide uses [Terraform](https://learn.hashicorp.com/collections/terraform/aws-get-started) & the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html). You'll need to have both installed and configured with appropriate IAM credentials.
 
 Use the terraform plan to create an EC2 instance; modify it to change the instance type as desired.
 
@@ -96,20 +123,18 @@ That is a very "it depends" definition, which is the reason for this project. Wi
 
 ### Why is this using Docker?
 
-Why in Docker - that'll slow things down?! Yes it will. However I imagine many of those interested in this already run their apps inside Docker. It also makes it easier to deploy all the various benchmarks to the same server for comparison.
+_"Why in Docker - that'll slow things down?!"_ Maybe, maybe not. 
 
-## Roadmap
+  > By default, a container has no resource constraints and can use as much of a given resource as the host's kernel scheduler allows.
+  > 
+  >   \- [Docker Docs > Runtime options with Memory, CPUs, and GPUs](https://docs.docker.com/config/containers/resource_constraints/)
 
-Contributions on the following would be welcome:
+So without any other constraints or other resource-intensive processes on the benchmark server, this should run fine. Contributions which test that theory are very welcome though. 
 
-  - Benchmarks for additional password hashing algorithms
-    + PBKDF2
-    + Argon2id
-    + scrypt
-  - Benchmarks for additional password hashing libraries in popular languages
-    + Java
-    + .Net
-    + PHP
-    + Go
-  - Benchmarks for all libraries on various AWS, Azure, and GCP instance types
-  - Add current-state hashcat results (i.e. how fast can attackers brute force a cost-factor 13 password on a GPU-optimised instance)
+Some other reasons: there's a good chance that those interested in needing to evaluate password hashing benchmarks run their apps inside Docker already. Ultimately it made it easier to deploy all the various benchmarks to the same server for comparison. :)
+
+## Contributions
+
+  - Benchmark Docker containers for missing libraries (see the Table above), or additional libraries for the same language-algorithm combo
+  - Benchmark results for all libraries on various AWS, Azure, and GCP instance types
+  - Add current-state hashcat results (e.g. how fast can attackers brute force a cost-factor 13 password on a GPU-optimised instance)
