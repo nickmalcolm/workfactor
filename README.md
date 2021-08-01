@@ -9,7 +9,7 @@ See the Background section further down to learn more about work factors.
 The simplest way to get started is to run a benchmark locally. They're docker containers, so they'll run anywhere that Docker can run.
 
 ```
-cd ruby
+cd ruby/bcrypt
 docker build -t workfactor/ruby-bcrypt .
 docker run -t workfactor/ruby-bcrypt:latest
 ruby bcrypt(8)  avg: 18ms min: 18ms max: 19ms
@@ -36,7 +36,7 @@ This project contains docker images which will run performance benchmarks for th
 |C#||[BCrypt.Net](https://github.com/BcryptNet/bcrypt.net)|||
 |PHP|||||
 |Go||||||
-|Ruby||[bcrypt](https://github.com/codahale/bcrypt-ruby)|||
+|Ruby||[bcrypt](https://github.com/codahale/bcrypt-ruby)||[rbnacl](https://github.com/RubyCrypto/rbnacl)|
 
 Any blank cells indicate there's no benchmark written yet - please contribute! Languages in the table are listed in order of "popularity" as [rated by StackOverflow 2020](https://insights.stackoverflow.com/survey/2020#technology).
 
@@ -70,7 +70,7 @@ You've now got an instance IP and a private key, which you can save (and `chmod 
 Here's how you'd build the ruby benchmark's docker image, and run that on EC2.
 
 ```sh
-cd ruby
+cd ruby/bcrypt
 docker build -t workfactor/bcrypt-ruby .
 docker tag workfactor/bcrypt-ruby:latest public.ecr.aws/ECR_ALIAS/workfactor/bcrypt-ruby:latest
 docker push public.ecr.aws/ECR_ALIAS/workfactor/bcrypt-ruby:latest
@@ -125,18 +125,18 @@ That is a very "it depends" definition, which is the reason for this project. Wi
 
 ### Why is this using Docker?
 
-_"Why in Docker - that'll slow things down?!"_ Maybe, maybe not. 
+_"Why in Docker - that'll slow things down?!"_ 🤷‍♂️ 
 
   > By default, a container has no resource constraints and can use as much of a given resource as the host's kernel scheduler allows.
   > 
   >   \- [Docker Docs > Runtime options with Memory, CPUs, and GPUs](https://docs.docker.com/config/containers/resource_constraints/)
 
-So without any other constraints or other resource-intensive processes on the benchmark server, this should run fine. Contributions which test that theory are very welcome though. 
+So without any other constraints or other resource-intensive processes on the benchmark server, this should run fine. Docker itself, running in the background, might slow it down.
 
-Some other reasons: there's a good chance that those interested in needing to evaluate password hashing benchmarks run their apps inside Docker already. Ultimately it made it easier to deploy all the various benchmarks to the same server for comparison. :)
+On the other hand: there's a good chance that those interested in needing to evaluate password hashing benchmarks run their apps inside Docker already. Ultimately it made it easier to deploy all the various benchmarks to the same server for comparison. :)
 
 ## Contributions
 
   - Benchmark Docker containers for missing libraries (see the Table above), or additional libraries for the same language-algorithm combo
   - Benchmark results for all libraries on various AWS, Azure, and GCP instance types
-  - Add current-state hashcat results (e.g. how fast can attackers brute force a cost-factor 13 password on a GPU-optimised instance)
+  - Add current-state hashcat results (e.g. how fast can attackers brute force a cost-factor bcrypt 13 password on a GPU-optimised instance)
