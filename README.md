@@ -31,7 +31,7 @@ This project contains docker images which will run performance benchmarks for th
 |Language|PBKDF2|bcrypt|scrypt|Argon2id|
 |--------|------|------|------|--------|
 |JavaScript / NPM||[node.bcrypt.js](https://github.com/kelektiv/node.bcrypt.js)|||
-|Python||[bcrypt](https://github.com/pyca/bcrypt/)|||
+|Python||[bcrypt](https://github.com/pyca/bcrypt/)||[1]|
 |Java|||||
 |C#||[BCrypt.Net](https://github.com/BcryptNet/bcrypt.net)|||
 |PHP|||||
@@ -39,6 +39,8 @@ This project contains docker images which will run performance benchmarks for th
 |Ruby||[bcrypt](https://github.com/codahale/bcrypt-ruby)|||
 
 Any blank cells indicate there's no benchmark written yet - please contribute! Languages in the table are listed in order of "popularity" as [rated by StackOverflow 2020](https://insights.stackoverflow.com/survey/2020#technology).
+
+[1] Python's `argon2-cffi` library provides [a CLI tool](https://argon2-cffi.readthedocs.io/en/stable/cli.html) which will determine the optimal Argon2 parameters on a given machine. Use that instead :)
 
 ## Running the benchmarks in AWS
 
